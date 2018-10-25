@@ -1,0 +1,73 @@
+
+
+<script type="text/javascript">
+    var contextPath = "/EasyBuy";
+</script>
+<table border="0" class="add_tab" style="width:930px;" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="135" align="right">分类级别</td>
+        <td colspan="3" style="font-family:'宋体';" >
+            <select class="jj" name="type" style="background-color:#f6f6f6;" id="type"
+                    onchange="selectProductCategoryLevel(this);" >
+                <option value="" selected="selected">请选择...</option>
+                <option value="1"
+                         >一级分类
+                </option>
+                <option value="2"
+                         >二级分类
+                </option>
+                <option value="3"
+                         >三级分类
+                </option>
+            </select>
+        </td>
+    </tr>
+        <tr  >
+            <td width="135" align="right">一级分类</td>
+            <td colspan="3" style="font-family:'宋体';">
+                <select class="jj" name="productCategoryLevel1" style="background-color:#f6f6f6;"  id="productCategoryLevel1" onchange="queryProductCategoryList(this,'productCategoryLevel2');">
+                    <option value="0" selected="selected">请选择...</option>
+                    
+                        <option value="548"
+                                 >化妆品</option>
+                    
+                        <option value="628"
+                                 >家用商品</option>
+                    
+                        <option value="660"
+                                 >进口食品,生鲜</option>
+                    
+                        <option value="670"
+                                 >电子商品</option>
+                    
+                        <option value="676"
+                                 >保健食品</option>
+                    
+                        <option value="681"
+                                 >箱包</option>
+                    
+                </select>
+            </td>
+        </tr>
+        <tr style="display:none">
+            <td width="135" align="right">二级分类</td>
+            <td>
+                <select class="jj" name="productCategoryLevel2" style="background-color:#f6f6f6;"
+                        id="productCategoryLevel2">
+                    <option value="0" selected="selected">请选择...</option>
+                    
+                </select>
+            </td>
+        </tr>
+    <tr>
+        <td align="right">分类名称</td>
+        <td style="font-family:'宋体';">
+            <input type="text" value="" class="add_ipt" id="name"/>（必填）
+            <input type="hidden" name="id" value="" id="id">
+        </td>
+    </tr>
+</table>
+<p align="right">
+    <br>
+    <a href="javascript:void(0);" onclick="saveOrUpdate();" class="add_b">确认修改</a>
+</p>
