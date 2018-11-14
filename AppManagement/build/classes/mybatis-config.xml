@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">	
+<configuration>	
+	<!-- 给类起别名(别名给映射文件中使用) -->
+	<typeAliases>
+		<!-- 直接给某个包中类全部设置别名 .自动起的别名是简单类名（首字母大小写均可）-->
+		<package name="linfei.pojo"/>
+	</typeAliases>
+	<mappers>
+		<mapper resource="UserDao"/>
+	</mappers>
+</configuration>
