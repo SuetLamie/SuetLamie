@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace属性值设置为对应的dao接口的全接口名 -->
+<mapper namespace="linfei.dao.InformationsDao">
+	<!-- sql语句 -->
+	<select id="selectAllCount" resultType="Integer">
+			<!-- #{表达式} 用来获取参数值
+				 如果多个参数，表达式直接指定@Param设置的参数名  @Param("标识名")
+			 -->
+			select count(1) from `informations`;
+	</select>
+	<select id="selectByLimitandorder" resultType="Informations">
+			SELECT * FROM `informations` ORDER BY `lastPostTime` DESC LIMIT #{fromindex},#{pagesize};
+	</select>
+	<select id="selectById"  resultMap="info">
+			SELECT i.*,r.* FROM `informations` AS i LEFT JOIN `replies` AS r ON i.id=r.infoId WHERE i.id=#{id};
+	</select>
+	<update id="updateviewCountById">
+			update `informations` set `viewCount`=#{viewcount} where `id`=#{id};
+	</update>
+	<update id="updatereplyCountandlastPostTimeById">
+			update `informations` set `replyCount`=#{replyCount},`lastPostTime`=#{lastPostTime} where `id`=#{id};
+	</update>
+	<resultMap type="Informations" id="info">
+		<id property="id" column="id"/>
+		<result  property="id" column="id"/>
+		<result  property="title" column="title"/>
+		<result  property="content" column="content"/>
+		<result  property="replyCount" column="replyCount"/>
+		<result  property="viewCount" column="viewCount"/>
+		<result  property="lastPostTime" column="lastPostTime"/>
+		<collection property="replies" ofType="Replies">
+			<id property="id" column="id"/>
+			<result  property="content" column="content"/>
+			<result  property="replyTime" column="replyTime"/>
+			<result  property="infoId" column="infoId"/>
+		</collection>
+	</resultMap>
+</mapper>

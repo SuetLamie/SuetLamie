@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace属性值设置为对应的dao接口的全接口名 -->
+<mapper namespace="linfei.dao.DataDictionaryDao">
+	<!-- sql语句 -->
+	<!-- 指定唯一标示 id 与对应方法名相同
+		 parameterType属性指定参数类型（全类名），如果多个参数就不用指定
+		 resultType属性指定返回类型（全类名）
+	 -->
+	 <!-- 登录验证查询 -->
+	<select id="selectBytypecode" resultType="DataDictionary">
+			<!-- #{表达式} 用来获取参数值
+				 如果多个参数，表达式直接指定@Param设置的参数名  @Param("标识名")
+			 -->
+			select * from `data_dictionary` where typecode=#{typecode};
+	</select>
+</mapper>

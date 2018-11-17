@@ -48,7 +48,7 @@
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<select id="queryCategoryLevel1" name="queryCategoryLevel1" class="form-control">
 									<c:if test="${categoryLevel1List != null }">
-									   <option value="">--请选择--</option>
+									   <option value="">--请选择--</option>									   									   									   
 									   <c:forEach var="appCategory" items="${categoryLevel1List}">
 									   		<option <c:if test="${appCategory.id == queryCategoryLevel1 }">selected="selected"</c:if>
 									   		value="${appCategory.id}">${appCategory.categoryName}</option>
@@ -222,6 +222,13 @@
 	</div>
 </div>
 </div>
+<script src="${pageContext.request.contextPath }/statics/js/jquery-3.3.1.js"></script>
+<script type="text/javascript">
+	$.ajax({
+		"url":"/selectCategoryByParentId",
+		"":""
+	})
+</script>
 <%@include file="common/footer.jsp"%>
 <script src="${pageContext.request.contextPath }/statics/localjs/rollpage.js"></script>
 <script src="${pageContext.request.contextPath }/statics/localjs/applist.js"></script>
