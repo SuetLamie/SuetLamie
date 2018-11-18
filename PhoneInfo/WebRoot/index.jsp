@@ -38,12 +38,23 @@
 					"data":"id="+$(this).html(),
 					"type":"post",
 					"success":function(pages){
-						$("#table tr:first").siblings().remove();
-						var context="<c:forEach items="${pages.informations}" var="informations"><tr><td>${informations.id }</td><td>${informations.title }</td><td>${informations.replyCount }/${informations.viewCount }</td><td><fmt:formatDate value="${informations.reportTime }" pattern="yyyy-MM-dd hh:mm:ss" /></td><td><fmt:formatDate value="${informations.lastPostTime }" pattern="yyyy-MM-dd hh:mm:ss" /></td></tr></c:forEach>";
-						$("#table").append(context);
+						$("#table tr:first").siblings().remove();					
+						var result=$(pages.informations);							
+						var options = "";
+						for(var i = 0; i < result.length; i++){
+								options +="<tr>";
+								options += "<td>"+result[i].id+"</td>";
+								options += "<td>"+"<a href='<%=request.getContextPath() %>/info?id="+result[i].id+"'>"+result[i].title+"</td>";
+								options += "<td>"+result[i].replyCount+"/"+result[i].viewCount+"</td>";
+								options += "<td>"+result[i].reportTime+"</td>";
+								options += "<td>"+result[i].lastPostTime+"</td>";
+								options +="</tr>";
+						}
+						$("#table").append(options);
+						//alert(pages.currentPageNo);
 						$("tr:odd").css("background-color","green");
-						$("#span1").html("${pages.currentPageNo}");
-						$("#span1").html("${pages.totalPageCount}");
+						$("#span1").html(pages.currentPageNo);
+						$("#span2").html(pages.totalPageCount);
 						fun();
 					}
 				})

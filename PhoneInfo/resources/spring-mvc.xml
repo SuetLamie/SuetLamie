@@ -22,7 +22,7 @@
 						<value>text/html;charset=utf-8</value>
 					</list>
 				</property>
-				<property name="dateFormat" value="yyyy-MM-dd"></property>
+				<property name="dateFormat" value="yyyy-MM-dd hh:mm:ss"></property>
 				<!-- 使用缺省日期格式(yyyy-MM-dd hh:mm:ss) -->
 				<property name="features">
 					<value>WriteDateUseDateFormat</value>

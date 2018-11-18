@@ -30,10 +30,11 @@
 		<result  property="content" column="content"/>
 		<result  property="replyCount" column="replyCount"/>
 		<result  property="viewCount" column="viewCount"/>
+		<result  property="reportTime" column="reportTime"/>
 		<result  property="lastPostTime" column="lastPostTime"/>
 		<collection property="replies" ofType="Replies">
-			<id property="id" column="id"/>
-			<result  property="content" column="content"/>
+			<id property="uid" column="uid"/>
+			<result  property="ucontent" column="ucontent"/>
 			<result  property="replyTime" column="replyTime"/>
 			<result  property="infoId" column="infoId"/>
 		</collection>

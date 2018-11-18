@@ -1,4 +1,5 @@
 package linfei.controller;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import linfei.pojo.Informations;
 import linfei.pojo.Pages;
+import linfei.pojo.Replies;
 import linfei.service.ServiceDao;
 
 @Controller
@@ -69,6 +71,27 @@ public class controller {
 		Informations informations=servicedao.selectById(id);
 		informations.setViewCount(informations.getViewCount()+1);
 		session.setAttribute("informations", informations);
+		servicedao.updateviewCountById(id, informations.getViewCount());	
 		return "forward:/info.jsp";
+	}
+	@RequestMapping("submitreplies")
+	@ResponseBody
+	public Replies submitreplies(HttpServletRequest req){
+		Replies replies=new Replies();
+		Date date=new Date();
+		String textarea=req.getParameter("textarea");
+		String informationsid_str=req.getParameter("informationsid");
+		int informationsid=Integer.parseInt(informationsid_str);
+		System.out.println(textarea);
+		System.out.println(informationsid);
+		replies.setUcontent(textarea);
+		replies.setInfoId(informationsid);
+		replies.setReplyTime(date);
+		servicedao.insertreplies(replies);
+		Informations informations=servicedao.selectById(informationsid);
+		informations.setLastPostTime(date);
+		servicedao.updatereplyCountandlastPostTimeById(informationsid, informations.getReplyCount()+1, date);
+		System.out.println(replies.getReplyTime());			
+		return replies;
 	}
 }

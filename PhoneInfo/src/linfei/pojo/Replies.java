@@ -8,27 +8,27 @@ import java.util.Date;
  *
  */
 public class Replies {
-	private Integer id;	//回复 id
-	private String content;	//回复内容
+	private Integer uid;	//回复 id
+	private String ucontent;	//回复内容
 	private Date replyTime;	//回复时间
 	private Integer infoId;	// 资讯 id
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
 	public Date getReplyTime() {
 		return replyTime;
 	}
 	public void setReplyTime(Date replyTime) {
 		this.replyTime = replyTime;
+	}
+	public Integer getUid() {
+		return uid;
+	}
+	public void setUid(Integer uid) {
+		this.uid = uid;
+	}
+	public String getUcontent() {
+		return ucontent;
+	}
+	public void setUcontent(String ucontent) {
+		this.ucontent = ucontent;
 	}
 	public Integer getInfoId() {
 		return infoId;
