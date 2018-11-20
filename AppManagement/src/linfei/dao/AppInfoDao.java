@@ -14,9 +14,9 @@ import linfei.pojo.AppInfo;
 public interface AppInfoDao {
 	/**
 	 * 分页查询App
-	 * @return
+	 * @return List<AppInfo>
 	 */
-	public List<AppInfo> selectAll(@Param("querySoftwareName")String querySoftwareName,@Param("status")Integer status,@Param("flatformId")Integer flatformId,@Param("categoryLevel1")Integer categoryLevel1,@Param("categoryLevel2")Integer categoryLevel2,@Param("categoryLevel3")Integer categoryLevel3,@Param("fromindex")int fromindex,@Param("pagesize")int pagesize);
+	public List<AppInfo> selectAll(@Param("querySoftwareName")String querySoftwareName,@Param("queryStatus")String queryStatus,@Param("queryFlatformId")String queryFlatformId,@Param("queryCategoryLevel1")String queryCategoryLevel1,@Param("queryCategoryLevel2")String queryCategoryLevel2,@Param("queryCategoryLevel3")String queryCategoryLevel3,@Param("fromindex")Integer fromindex,@Param("pagesize")Integer pagesize);
 	/**
 	 * 查询App总数
 	 */

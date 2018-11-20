@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Pages {
 	private int totalCount;	//所有数
-	private int currentPageNo=1;	//当前页
+	private int currentPageNo;	//当前页
 	private int totalPageCount;	//总页数
 	private int Pagesize=5;	//页面大小
 	private List<AppInfo> appinfo;	//当前页App信息	

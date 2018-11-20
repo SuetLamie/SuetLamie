@@ -71,8 +71,9 @@ public class Services {
 	 * 分页查询App基础信息
 	 * @return
 	 */
-	public List<AppInfo> selectAllAppInfo(String querySoftwareName,Integer status,Integer flatformId,Integer categoryLevel1,Integer categoryLevel2,Integer categoryLevel3,int fromindex,int pagesize){
-		List<AppInfo> list=appinfodao.selectAll(querySoftwareName,status,flatformId,categoryLevel1,categoryLevel2,categoryLevel3,fromindex,pagesize);
+	public List<AppInfo> selectAllAppInfo(String querySoftwareName,String queryStatus,String queryFlatformId,String queryCategoryLevel1,String queryCategoryLevel2,String queryCategoryLevel3,Integer fromindex,Integer pagesize){
+		int i=(fromindex-1)*pagesize;
+		List<AppInfo> list=appinfodao.selectAll(querySoftwareName, queryStatus, queryFlatformId, queryCategoryLevel1, queryCategoryLevel2, queryCategoryLevel3, i, pagesize);
 		return list;
 	}
 	/**
