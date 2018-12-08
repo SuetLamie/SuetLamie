@@ -128,7 +128,7 @@ public class developerController {
 	@RequestMapping("/addversionsave")
 	public String addversionsave(HttpServletRequest req,MultipartFile file){
 		if(!file.isEmpty()){
-			String path=
+			
 		}
 		String versionNo_str=req.getParameter("versionNo");
 		Integer versionNo=Integer.parseInt(versionNo_str);	//°æ±¾ºÅ
