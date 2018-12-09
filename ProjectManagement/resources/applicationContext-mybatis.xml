@@ -45,7 +45,7 @@
  	<!-- 面向切面 -->
  	<aop:aspectj-autoproxy/>
       <aop:config proxy-target-class="true">
-      	<aop:pointcut expression="execution(* *linfei.services..*(..))" id="transService"/>
+      	<aop:pointcut expression="execution(* *linfei.service..*(..))" id="transService"/>
       	<aop:advisor advice-ref="myAdvice" pointcut-ref="transService"/>
       </aop:config>    
  	<tx:advice id="myAdvice" transaction-manager="txManager">  

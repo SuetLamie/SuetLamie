@@ -1,21 +1,23 @@
 package linfei.controller;
-
+/**
+ * “≥√ÊController
+ */
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/page")
 public class PageJumpController {
-	@RequestMapping("/project_1")
-	public String project_1() {
-		return "project_1";
+	@RequestMapping("/info")
+	public String info() {
+		return "info";
 	}
-	@RequestMapping("/project_2")
-	public String project_2() {
-		return "project_2";
+	@RequestMapping("/collection")
+	public String collection() {
+		return "collection";
 	}
-	@RequestMapping("/project_3")
-	public String project_3() {
-		return "project_3";
+	@RequestMapping("/visit")
+	public String visit() {
+		return "visit";
 	}
 }
