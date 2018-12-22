@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.surpass.mvc.system.bas.dao.SysDictDetailMapper">
+
+	<!-- 查询信息 -->
+	<select id="typeNextValue" resultType="com.surpass.mvc.system.sys.model.DictDetail">
+		SELECT
+			a.DICT_PARENT_ID dict_parent_id,
+			a.DICT_DETALL_CODE + 1 dict_detall_code,
+			b.DICT_DETAIL_ORDER + 1 dict_detail_order
+		FROM
+			(
+				SELECT
+					MAX(DICT_DETALL_CODE)DICT_DETALL_CODE,
+					DICT_PARENT_ID
+				FROM
+					t_sys_dict_detail
+				WHERE
+					DICT_ID = '1009' AND DICT_PARENT_ID = #{dict_parent_id}
+				GROUP BY
+					DICT_PARENT_ID
+				ORDER BY
+					DICT_PARENT_ID
+			)a
+		LEFT JOIN(
+			SELECT
+				MAX(DICT_DETAIL_ORDER)DICT_DETAIL_ORDER,
+				DICT_PARENT_ID
+			FROM
+				t_sys_dict_detail
+			WHERE
+				DICT_ID = '1009' AND DICT_PARENT_ID = #{dict_parent_id}
+			GROUP BY
+				DICT_PARENT_ID
+			ORDER BY
+				DICT_PARENT_ID
+		)b ON a.DICT_PARENT_ID = b.DICT_PARENT_ID
+	</select>
+	
+	<!-- 查询信息 -->
+	<select id="getNextDictDetailIdValue" resultType="com.surpass.mvc.system.sys.model.DictDetail">
+		SELECT CONCAT('1009_', MAX(right(DICT_DETAIL_ID,4)) + 1) dict_detail_id FROM t_sys_dict_detail WHERE DICT_ID = '1009'
+	</select>
+
+
+	<!-- 查询信息 -->
+	<select id="query" resultType="com.surpass.mvc.system.sys.model.DictDetail"
+		parameterType="map">
+		SELECT
+		d.dict_parent_id dict_parent_id,
+		p.dict_detail_name
+		dict_parent_name,
+		d.dict_detail_id dict_detail_id,
+		d.dict_detall_code
+		dict_detall_code,
+		d.dict_detail_name dict_detail_name,
+		d.dict_detail_order dict_detail_order
+		FROM
+		t_sys_dict_detail d
+		LEFT JOIN
+		t_sys_dict_detail p ON d.DICT_PARENT_ID = p.DICT_DETALL_CODE
+		<where>
+			d.DICT_ID = '1009' and d.STATE = 1
+			<if
+				test="dictDetail.dict_parent_id != null and dictDetail.dict_parent_id !='' ">
+				and d.DICT_PARENT_ID = #{dictDetail.dict_parent_id}
+			</if>
+			<if
+				test="dictDetail.dict_detail_name != null and dictDetail.dict_detail_name !='' ">
+				and d.DICT_DETAIL_NAME like
+				CONCAT('${dictDetail.dict_detail_name}','%')
+			</if>
+		</where>
+		ORDER BY d.dict_detail_id,d.DICT_DETAIL_ORDER
+		LIMIT #{start}, #{limit}
+	</select>
+
+	<!-- 查询信息数据条数 -->
+	<select id="total" resultType="Integer"
+		parameterType="com.surpass.mvc.system.sys.model.DictDetail">
+		SELECT count(DICT_DETAIL_ID) FROM t_sys_dict_detail
+		<where>
+			DICT_ID = '1009' and STATE = 1
+			<if test="dict_parent_id != null and dict_parent_id !='' ">
+				and DICT_PARENT_ID = #{dict_parent_id}
+			</if>
+			<if test="dict_detail_name != null and dict_detail_name !='' ">
+				and DICT_DETAIL_NAME like
+				CONCAT('${dict_detail_name}','%')
+			</if>
+		</where>
+	</select>
+
+	<delete id="deleteByKey" parameterType="java.lang.String">
+		delete from
+		t_sys_dict_detail
+		where dict_detail_id in (${ids})
+	</delete>
+
+	<insert id="insert" parameterType="com.surpass.mvc.system.sys.model.DictDetail">
+		insert into t_sys_dict_detail
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="dict_detail_id != null">
+				dict_detail_id,
+			</if>
+			<if test="dict_detall_code != null">
+				dict_detall_code,
+			</if>
+			<if test="dict_detail_name != null">
+				dict_detail_name,
+			</if>
+			<if test="dict_detail_meanings != null">
+				dict_detail_meanings,
+			</if>
+			<if test="dict_detail_order != null">
+				dict_detail_order,
+			</if>
+			<if test="dict_parent_id != null">
+				dict_parent_id,
+			</if>
+			<if test="create_user != null">
+				create_user,
+			</if>
+			dict_id,
+			state,
+			create_time,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="dict_detail_id != null">
+				#{dict_detail_id,jdbcType=VARCHAR},
+			</if>
+			<if test="dict_detall_code != null">
+				#{dict_detall_code,jdbcType=VARCHAR},
+			</if>
+			<if test="dict_detail_name != null">
+				#{dict_detail_name,jdbcType=VARCHAR},
+			</if>
+			<if test="dict_detail_meanings != null">
+				#{dict_detail_meanings,jdbcType=VARCHAR},
+			</if>
+			<if test="dict_detail_order != null">
+				#{dict_detail_order,jdbcType=INTEGER},
+			</if>
+			<if test="dict_parent_id != null">
+				#{dict_parent_id,jdbcType=VARCHAR},
+			</if>
+			<if test="create_user != null">
+				#{create_user,jdbcType=VARCHAR},
+			</if>
+			'1009',
+			1,
+			now(),
+		</trim>
+	</insert>
+
+	<update id="updateByKey" parameterType="com.surpass.mvc.system.sys.model.DictDetail">
+		update t_sys_dict_detail
+		<set>
+			<if test="dict_detail_name != null">
+				dict_detail_name = #{dict_detail_name,jdbcType=VARCHAR},
+			</if>
+			<if test="dict_detail_order != null">
+				dict_detail_order =
+				#{dict_detail_order,jdbcType=INTEGER},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=CHAR},
+			</if>
+		</set>
+		where dict_detail_id = #{dict_detail_id,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

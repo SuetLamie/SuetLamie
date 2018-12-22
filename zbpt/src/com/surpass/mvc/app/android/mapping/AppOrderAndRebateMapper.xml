@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.surpass.mvc.app.android.dao.AppOrderAndRebateMapper">
+	<!-- 新增用户订单 -->
+	<insert id="addOrder" parameterType="com.surpass.mvc.system.bas.model.Order">
+		insert into t_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="orderno != null">
+				orderno,
+			</if>
+			<if test="memberid != null">
+				memberid,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="money != null">
+				money,
+			</if>
+			<if test="num != null">
+				num,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="courseid != null">
+				courseid,
+			</if>
+			<if test="shopid != null">
+				shopid,
+			</if>
+			<if test="createdate != null">
+				createdate,
+			</if>
+			<if test="updatedate != null">
+				updatedate,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="paystatus != null">
+				paystatus,
+			</if>
+			<if test="tradestatus != null">
+				tradestatus,
+			</if>
+			<if test="integral != null">
+				integral,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="deliverystatus != null">
+				deliverystatus,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="electronicmoney != null">
+				electronicmoney,
+			</if>
+			<if test="info != null">
+				info,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="orderno != null">
+				#{orderno,jdbcType=VARCHAR},
+			</if>
+			<if test="memberid != null">
+				#{memberid,jdbcType=INTEGER},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="money != null">
+				#{money,jdbcType=DOUBLE},
+			</if>
+			<if test="num != null">
+				#{num,jdbcType=INTEGER},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="courseid != null">
+				#{courseid,jdbcType=INTEGER},
+			</if>
+			<if test="shopid != null">
+				#{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="createdate != null">
+				#{createdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedate != null">
+				#{updatedate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="paystatus != null">
+				#{paystatus,jdbcType=VARCHAR},
+			</if>
+			<if test="tradestatus != null">
+				#{tradestatus,jdbcType=VARCHAR},
+			</if>
+			<if test="integral != null">
+				#{integral,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="deliverystatus != null">
+				#{deliverystatus,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="electronicmoney != null">
+				#{electronicmoney,jdbcType=DOUBLE},
+			</if>
+			<if test="info != null">
+				#{info,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<!-- 更新用户订单 -->
+	<update id="updateOrder" parameterType="com.surpass.mvc.system.bas.model.Order" >
+    update t_order
+    <set >
+           <if test="orderno != null" >
+        orderno = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        memberid = #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="courseid != null" >
+        courseid = #{courseid,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null" >
+        shopid = #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        createdate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedate != null" >
+        updatedate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="paystatus != null" >
+        paystatus = #{paystatus,jdbcType=VARCHAR},
+      </if>
+      <if test="tradestatus != null" >
+        tradestatus = #{tradestatus,jdbcType=VARCHAR},
+      </if>
+      <if test="integral != null" >
+        integral = #{integral,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverystatus != null" >
+        deliverystatus = #{deliverystatus,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="electronicmoney != null" >
+        electronicmoney = #{electronicmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="info != null" >
+        info = #{info,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where orderno = #{orderno,jdbcType=VARCHAR}
+  </update>
+  <!-- 获取会员订单 -->
+	<select id="getListOrderByMemberId" resultType="com.surpass.mvc.system.bas.model.Order"
+		parameterType="map">
+		select t.* from t_order t
+		<where>
+			t.memberid=#{memberid,jdbcType=INTEGER}
+			<if test="paystatus != null and paystatus !='' ">
+				and t.paystatus=#{paystatus,jdbcType=VARCHAR}
+			</if>
+			<if test="deliverystatus != null and deliverystatus !='' ">
+				and t.deliverystatus=#{deliverystatus,jdbcType=VARCHAR}
+			</if>
+		</where>
+		order by t.createdate DESC
+		<![CDATA[
+            limit #{start}, #{limit}        
+      	]]>
+	</select>
+	 <!-- 取消删除订单 -->
+  <delete id="deleteOrder" parameterType="com.surpass.mvc.system.bas.model.Order">
+		DELETE
+		FROM
+		t_order
+		WHERE
+		orderno = #{orderno,jdbcType=VARCHAR}
+	</delete>
+	<!--增加返佣记录  -->
+	 <insert id="insertRakeBack" parameterType="com.surpass.mvc.system.bas.model.MemberRakeBack" >
+     insert into t_sys_member_rakeback
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="memberid != null" >
+        memberid,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="personid != null" >
+        personid,
+      </if>
+      <if test="createdate != null" >
+        createdate,
+      </if>
+      <if test="orderid != null" >
+        orderid,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="membername != null" >
+        membername,
+      </if>
+      <if test="personname != null" >
+        personname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="personid != null" >
+        #{personid,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="membername != null" >
+        #{membername,jdbcType=VARCHAR},
+      </if>
+      <if test="personname != null" >
+        #{personname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+    <!-- 获取用户获得的返佣记录 -->
+	<select id="getRakeBackByMemberId" resultType="com.surpass.mvc.system.bas.model.MemberRakeBack"
+		parameterType="map">
+		select t.* from t_sys_member_rakeback t
+		<where>
+			t.personid=#{memberRakeBack.memberid}
+		</where>
+		order by t.createdate DESC
+		<![CDATA[
+            limit #{start}, #{limit}        
+      	]]>
+	</select>
+	<!-- 获取用户购买物品返佣给谁的记录 -->
+	<select id="getRakeBackByPersonId" resultType="com.surpass.mvc.system.bas.model.MemberRakeBack"
+		parameterType="map">
+		select t.* from t_sys_member_rakeback t
+		<where>
+			t.memberid=#{memberRakeBack.memberid}
+		</where>
+		order by t.createdate DESC
+		<![CDATA[
+            limit #{start}, #{limit}        
+      	]]>
+	</select>
+</mapper>

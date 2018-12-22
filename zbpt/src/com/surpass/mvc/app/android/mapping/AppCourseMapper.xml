@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.surpass.mvc.app.android.dao.AppCourseMapper">
+
+	<!-- 查询信息 -->
+	<select id="getList" resultType="com.surpass.mvc.system.bas.model.Course"
+		parameterType="map">
+		SELECT
+		c.id id,
+		c.title title,
+		c.`level` 'level',
+		c.type type,
+		c.store
+		store,
+		c.teacher_id teacher_id,
+		c.teacher_name teacher_name,
+		c.clicks
+		clicks,
+		c.ji_fen ji_fen,
+		c.jia_ge jia_ge,
+		c.`status` 'status',
+		c.path
+		path,
+		c.img img,
+		c.tui_jie tui_jie,
+		c.`index` `index`,
+		t.picture teacherimg,
+		DATE_FORMAT(c.cjsj, '%Y-%m-%d %H:%i:%s') cjsj
+		FROM t_course c LEFT JOIN t_teacher_info t ON c.teacher_id=t.accountid
+		<where>
+			<if test="course.type != null and course.type !='' ">
+				and c.type = #{course.type}
+			</if>
+			<if test="course.level != null and course.level !='' ">
+				and c.level = #{course.level}
+			</if>
+			and c.status = 1
+		</where>
+		ORDER BY c.cjsj DESC
+		LIMIT #{start}, #{limit}
+	</select>
+
+	<select id="getCoursewareList" resultType="com.surpass.mvc.system.bas.model.Courseware">
+		select 
+		id, course_id, name, synopsis, introduce, clicks, order_index, path, img, DATE_FORMAT(cjsj, '%Y-%m-%d %H:%i:%s') cjsj
+		from t_courseware where course_id = #{course_id,jdbcType=INTEGER} ORDER BY order_index 
+	</select>
+	
+	<select id="getNewCoursewareList" resultType="com.surpass.mvc.system.bas.model.Courseware" parameterType="map">
+		select 
+		id, course_id, name, synopsis, introduce, clicks, order_index, path, img, DATE_FORMAT(cjsj, '%Y-%m-%d %H:%i:%s') cjsj
+		from t_courseware 
+		ORDER BY cjsj DESC
+		LIMIT #{start}, #{limit}
+	</select>
+
+	<!-- 热门推荐 -->
+	<select id="getHotData" resultType="com.surpass.mvc.system.bas.model.Course"
+		parameterType="map">
+		SELECT
+		c.id id,
+		c.title title,
+		c.`level` 'level',
+		c.type type,
+		c.store
+		store,
+		c.teacher_id teacher_id,
+		c.teacher_name teacher_name,
+		c.clicks
+		clicks,
+		c.ji_fen ji_fen,
+		c.jia_ge jia_ge,
+		c.`status` 'status',
+		c.path
+		path,
+		c.img img,
+		c.tui_jie tui_jie,
+		c.`index` `index`,
+		DATE_FORMAT(c.cjsj, '%Y-%m-%d %H:%i:%s') cjsj
+		FROM t_course_hot h
+		LEFT JOIN t_course c ON h.course_id = c.id
+		<where>
+			<if test="course.type != null and course.type !='' ">
+				and c.type = #{course.type}
+			</if>
+			<if test="course.level != null and course.level !='' ">
+				and c.level = #{course.level}
+			</if>
+			and c.status = 1
+		</where>
+		ORDER BY h.cjsj DESC
+		LIMIT #{start}, #{limit}
+	</select>
+
+	<!-- 讲师推荐 -->
+	<select id="getTeacherData" resultType="com.surpass.mvc.system.bas.model.Course"
+		parameterType="map">
+		SELECT
+		c.id id,
+		c.title title,
+		c.`level` 'level',
+		c.type type,
+		c.store
+		store,
+		c.teacher_id teacher_id,
+		c.teacher_name teacher_name,
+		c.clicks
+		clicks,
+		c.ji_fen ji_fen,
+		c.jia_ge jia_ge,
+		c.`status` 'status',
+		c.path
+		path,
+		c.img img,
+		c.tui_jie tui_jie,
+		c.`index` `index`,
+		DATE_FORMAT(c.cjsj, '%Y-%m-%d %H:%i:%s') cjsj
+		FROM t_course_teacher t
+		LEFT JOIN t_course c ON t.course_id = c.id
+		<where>
+			<if test="course.type != null and course.type !='' ">
+				and c.type = #{course.type}
+			</if>
+			<if test="course.level != null and course.level !='' ">
+				and c.level = #{course.level}
+			</if>
+			and c.status = 1
+		</where>
+		ORDER BY t.cjsj DESC
+		LIMIT #{start}, #{limit}
+	</select>
+	<!-- 查询信息 -->
+	<select id="getCourseByMyList" resultType="com.surpass.mvc.app.android.model.CourseByMember"
+		parameterType="map">
+		SELECT
+		c.id id,
+		c.title title,
+		c.`level` 'level',
+		c.type type,
+		c.store store,
+		c.teacher_id teacher_id,
+		c.teacher_name teacher_name,
+		c.clicks clicks,
+		c.ji_fen ji_fen,
+		c.jia_ge jia_ge,
+		c.`status` 'status',
+		c.path path,
+		c.img img,
+		c.tui_jie tui_jie,
+		c.`index` `index`,
+		t.picture teacherimg,
+		DATE_FORMAT(c.cjsj, '%Y-%m-%d %H:%i:%s') cjsj,
+		IF (m.id IS NULL, 0, 1) AS iscollection
+		FROM
+		t_course c
+		LEFT JOIN t_teacher_info t ON c.teacher_id = t.accountid
+		LEFT JOIN member_collection_course m ON (m.courseId = c.id
+		AND m.memberId = #{courseByMember.memberId})
+		<where>
+		 c. STATUS = 1
+			<if test="courseByMember.type != null and courseByMember.type !='' ">
+				and c.type = #{courseByMember.type}
+			</if>
+			<if test="courseByMember.level != null and courseByMember.level !='' ">
+				and c.level = #{courseByMember.level}
+		</if>
+		</where>
+		ORDER BY
+		c.cjsj DESC
+		LIMIT #{start}, #{limit}
+	</select>
+	<!-- 查询我购买的课程 -->
+	<select id="getMyCourse" resultType="com.surpass.mvc.app.android.model.CourseByMember"
+		parameterType="map">
+		SELECT
+		c.id id,
+		c.title title,
+		c.`level` 'level',
+		c.type type,
+		c.store store,
+		c.teacher_id teacher_id,
+		c.teacher_name teacher_name,
+		c.clicks clicks,
+		c.ji_fen ji_fen,
+		c.jia_ge jia_ge,
+		c.`status` 'status',
+		c.path path,
+		c.img img,
+		c.tui_jie tui_jie,
+		c.`index` `index`,
+		ta.picture teacherimg,
+		DATE_FORMAT(c.cjsj, '%Y-%m-%d %H:%i:%s') cjsj,
+		t.enddate as endtime,
+		IF (m.id IS NULL, 0, 1) AS iscollection
+		FROM
+		t_my_course t
+		LEFT JOIN t_course c ON c.id=t.course_id
+		LEFT JOIN t_teacher_info ta ON c.teacher_id = ta.accountid
+		LEFT JOIN member_collection_course m ON m.courseId = c.id
+		AND t.memberid = #{courseByMember.memberId}
+		WHERE
+			t.type = 2
+		ORDER BY
+		c.cjsj DESC
+		LIMIT #{start}, #{limit}
+	</select>
+	<!--  -->
+	<select id="courseisbuy" resultType="com.surpass.mvc.system.bas.model.MyCourse"
+		parameterType="com.surpass.mvc.system.bas.model.MyCourse">
+		select
+		*
+		from t_my_course c
+		<where>
+			c. type = 2
+			and c.memberid = #{memberid,jdbcType=INTEGER}
+			and c.course_id =#{course_id,jdbcType=INTEGER}
+			and c.enddate>NOW()
+		</where>
+	</select>
+</mapper>

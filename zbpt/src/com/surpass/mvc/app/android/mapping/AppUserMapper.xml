@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.surpass.mvc.app.android.dao.AppUserMapper">
+	<!-- 查询用户是否存在 -->
+	<select id="login" resultType="com.surpass.mvc.system.bas.model.Member" parameterType="com.surpass.mvc.system.bas.model.Member">
+		select * from t_sys_member where
+		mobilePhone = #{mobilephone,jdbcType=VARCHAR}
+		and
+		`password` = #{password,jdbcType=VARCHAR}
+	</select>
+	<!-- 根据手机号更新用户信息 -->
+	<update id="updateByPhoneSelective" parameterType="com.surpass.mvc.system.bas.model.Member" >
+    update t_sys_member
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="headimg != null" >
+        headImg = #{headimg,jdbcType=VARCHAR},
+      </if>
+      <if test="cardnumber != null" >
+        cardNumber = #{cardnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cardfaceimg != null" >
+        cardFaceImg = #{cardfaceimg,jdbcType=VARCHAR},
+      </if>
+      <if test="cardconimg != null" >
+        cardConImg = #{cardconimg,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephone != null" >
+        mobilePhone = #{mobilephone,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commendno != null" >
+        commendNo = #{commendno,jdbcType=VARCHAR},
+      </if>
+      <if test="ways != null" >
+        ways = #{ways,jdbcType=VARCHAR},
+      </if>
+      <if test="personno != null" >
+        personNo = #{personno,jdbcType=VARCHAR},
+      </if>
+      <if test="begintime != null" >
+        beginTime = #{begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        endTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+       <if test="openId != null" >
+        openId = #{openId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where mobilePhone = #{mobilephone,jdbcType=VARCHAR}
+  </update>
+  <!-- 为注册的用户增加一个账户 -->
+	 <insert id="addAccount" parameterType="com.surpass.mvc.system.bas.model.MemberAccount" >
+    insert into t_sys_member_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="hasmoney != null" >
+        hasmoney,
+      </if>
+        createdate,
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+      <if test="memberid != null" >
+        memberid,
+      </if>
+      <if test="usedmoney != null" >
+        usedmoney,
+      </if>
+      <if test="integral != null" >
+        integral,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="hasmoney != null" >
+        #{hasmoney,jdbcType=DOUBLE},
+      </if>
+     now(),
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="usedmoney != null" >
+        #{usedmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="integral != null" >
+        #{integral,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <!-- 新增会员身份表 -->
+    <insert id="addIdentity" parameterType="com.surpass.mvc.system.bas.model.MemberIdentity" >
+    insert into t_member_identity
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="memberid != null" >
+        memberid,
+      </if>
+      <if test="teacheridentity != null" >
+        teacheridentity,
+      </if>
+      <if test="teacherbegindate != null" >
+        teacherbegindate,
+      </if>
+      <if test="teacherenddate != null" >
+        teacherenddate,
+      </if>
+      <if test="businessidentity != null" >
+        businessidentity,
+      </if>
+      <if test="businessbegindate != null" >
+        businessbegindate,
+      </if>
+      <if test="businessenddate != null" >
+        businessenddate,
+      </if>
+      <if test="agentidentity != null" >
+        agentidentity,
+      </if>
+      <if test="agentbegindate != null" >
+        agentbegindate,
+      </if>
+      <if test="agentenddate != null" >
+        agentenddate,
+      </if>
+      <if test="partneridentity != null" >
+        partneridentity,
+      </if>
+      <if test="partnerbegindate != null" >
+        partnerbegindate,
+      </if>
+      <if test="partnerenddate != null" >
+        partnerenddate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="teacheridentity != null" >
+        #{teacheridentity,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherbegindate != null" >
+        #{teacherbegindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teacherenddate != null" >
+        #{teacherenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessidentity != null" >
+        #{businessidentity,jdbcType=VARCHAR},
+      </if>
+      <if test="businessbegindate != null" >
+        #{businessbegindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessenddate != null" >
+        #{businessenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agentidentity != null" >
+        #{agentidentity,jdbcType=VARCHAR},
+      </if>
+      <if test="agentbegindate != null" >
+        #{agentbegindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agentenddate != null" >
+        #{agentenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="partneridentity != null" >
+        #{partneridentity,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerbegindate != null" >
+        #{partnerbegindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="partnerenddate != null" >
+        #{partnerenddate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <!-- 更新会员身份表 -->
+    <update id="updateIdentity" parameterType="com.surpass.mvc.system.bas.model.MemberIdentity" >
+    update t_member_identity
+    <set >
+      <if test="memberid != null" >
+        memberid = #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="teacheridentity != null" >
+        teacheridentity = #{teacheridentity,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherbegindate != null" >
+        teacherbegindate = #{teacherbegindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teacherenddate != null" >
+        teacherenddate = #{teacherenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessidentity != null" >
+        businessidentity = #{businessidentity,jdbcType=VARCHAR},
+      </if>
+      <if test="businessbegindate != null" >
+        businessbegindate = #{businessbegindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessenddate != null" >
+        businessenddate = #{businessenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agentidentity != null" >
+        agentidentity = #{agentidentity,jdbcType=VARCHAR},
+      </if>
+      <if test="agentbegindate != null" >
+        agentbegindate = #{agentbegindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agentenddate != null" >
+        agentenddate = #{agentenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="partneridentity != null" >
+        partneridentity = #{partneridentity,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerbegindate != null" >
+        partnerbegindate = #{partnerbegindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="partnerenddate != null" >
+        partnerenddate = #{partnerenddate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where memberid = #{memberid,jdbcType=INTEGER}
+  </update>
+  <!-- 获取用户身份 -->
+   <select id="getMemberIdentity" resultType="com.surpass.mvc.system.bas.model.MemberIdentity" parameterType="map" >
+    select 
+    *
+    from t_member_identity
+    where memberid = #{memberid,jdbcType=INTEGER}
+  </select>
+  <!-- 获取代理商或者合伙人 -->
+   <select id="getMemberIdentityList" resultType="com.surpass.mvc.system.bas.model.MemberIdentity" parameterType="map" >
+	select
+	*
+	from t_member_identity
+	<where>
+		<!--代理人身份  -->
+		<if test="agentidentity != null and agentidentity!=''">
+			and agentidentity=#{agentidentity,jdbcType=VARCHAR}
+			and agentenddate<![CDATA[ >
+      	]]>now()
+		</if>
+		<!--合伙人身份  -->
+		<if test="partneridentity != null and partneridentity!=''">
+			and partneridentity=#{partneridentity,jdbcType=VARCHAR}
+			and partnerenddate<![CDATA[ >
+      	]]>now()
+		</if>
+	</where>
+  </select>
+   <!-- 获取合伙人数量 -->
+   <select id="totalByPartnerIdentity" resultType="Integer" parameterType="map" >
+	select
+	count(id)
+	from t_member_identity
+	<where>
+		partneridentity=1 and partnerenddate<![CDATA[ >
+      	]]>now()
+	</where>
+  </select>
+  <!-- 查询推荐码是否存在 -->
+	<select id="selectByCommendNO" resultType="com.surpass.mvc.system.bas.model.Member" parameterType="com.surpass.mvc.system.bas.model.Member">
+		select t.* from t_sys_member t where
+		t.commendNo = #{commendno,jdbcType=VARCHAR}
+	</select>
+	<!-- 查询我的下级会员-->
+	<select id="selectByPersonNO" resultType="com.surpass.mvc.system.bas.model.Member" parameterType="com.surpass.mvc.system.bas.model.Member">
+		select t.* from t_sys_member t where
+		t.personNo = #{commendno,jdbcType=VARCHAR}
+	</select>
+	<!-- 会员信息查询-->
+	<select id="getMemberById" resultType="com.surpass.mvc.system.bas.model.Member" parameterType="java.lang.Integer">
+	select t.*
+		from t_sys_member t
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<!-- 新增会员浏览记录-->
+	 <insert id="addBrowsingHistory" parameterType="com.surpass.mvc.system.bas.model.MemberBrowsing" >
+    insert into t_member_browsing
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="memberid != null" >
+        memberid,
+      </if>
+        createdate,
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="browsingid != null" >
+        browsingid,
+      </if>
+      <if test="historyinfo != null" >
+        historyinfo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=INTEGER},
+      </if>
+     now(),
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="browsingid != null" >
+        #{browsingid,jdbcType=INTEGER},
+      </if>
+      <if test="historyinfo != null" >
+        #{historyinfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+   <update id="updateBrowsingHistory" parameterType="com.surpass.mvc.system.bas.model.MemberBrowsing" >
+    update t_member_browsing
+    <set >
+        createdate = NOW(),
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <!-- 获取会员浏览记录 -->
+	<select id="getBrowsingHistoryByMember" resultType="com.surpass.mvc.system.bas.model.MemberBrowsing"
+		parameterType="map">
+		select t.* from t_member_browsing t
+		<where>
+			t.memberid=#{memberBrowsing.memberid}
+		</where>
+		order by t.createdate DESC
+		<![CDATA[
+            limit #{start}, #{limit}        
+      	]]>
+	</select>
+	 <!-- 查询浏览记录是否重复 -->
+	<select id="checkBrowsingHistoryByMember" resultType="com.surpass.mvc.system.bas.model.MemberBrowsing"
+		parameterType="com.surpass.mvc.system.bas.model.MemberBrowsing">
+		select t.* from t_member_browsing t
+		<where>
+			t.memberid=#{memberid,jdbcType=INTEGER}
+			and 
+			t.type=#{type,jdbcType=VARCHAR}
+			and
+			t.browsingid = #{browsingid,jdbcType=INTEGER}
+		</where>
+	</select>
+</mapper>

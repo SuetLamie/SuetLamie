@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.surpass.mvc.app.android.dao.AppMemberAccountMapper">
+	<!-- 新增用户卡包 -->
+	<insert id="insertCard" parameterType="com.surpass.mvc.system.bas.model.MemberCard" >
+    insert into t_sys_member_card
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cardno != null" >
+        cardno,
+      </if>
+      <if test="cardname != null" >
+        cardname,
+      </if>
+      <if test="cardaddress != null" >
+        cardaddress,
+      </if>
+        createdate,
+      <if test="memberid != null" >
+        memberid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cardno != null" >
+        #{cardno,jdbcType=VARCHAR},
+      </if>
+      <if test="cardname != null" >
+        #{cardname,jdbcType=VARCHAR},
+      </if>
+      <if test="cardaddress != null" >
+        #{cardaddress,jdbcType=VARCHAR},
+      </if>
+        now(),
+      <if test="memberid != null" >
+        #{memberid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <!-- 删除用户的卡 -->
+  <delete id="deleteCard" parameterType="java.lang.Integer" >
+    delete from t_sys_member_card
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+   <!-- 查询用户的卡 -->
+  <select id="getListCard" resultType="com.surpass.mvc.system.bas.model.MemberCard" parameterType="map" >
+    select 
+    *
+    from t_sys_member_card
+    where memberid = #{memberid,jdbcType=INTEGER}
+  </select>
+  <!-- 获取用户账户信息 -->
+  <select id="getAccountInfo" resultType="com.surpass.mvc.system.bas.model.MemberAccount" parameterType="map" >
+    select 
+    *
+    from t_sys_member_account
+    where memberid = #{memberid,jdbcType=INTEGER}
+  </select>
+  <!-- 获取用户积分 -->
+  <select id="getIntegral" resultType="java.lang.Integer" parameterType="com.surpass.mvc.system.bas.model.MemberAccount" >
+    select 
+    integral
+    from t_sys_member_account
+    where memberid = #{memberid,jdbcType=INTEGER}
+  </select>
+  <!-- 更新账户信息 -->
+	<update id="updateAccountByMemberId" parameterType="com.surpass.mvc.system.bas.model.MemberAccount">
+		update t_sys_member_account
+		<set>
+			<if test="hasmoney != null">
+				hasmoney = #{hasmoney,jdbcType=DOUBLE},
+			</if>
+			<if test="createdate != null">
+				createdate = #{createdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+				updateTime = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="memberid != null">
+				memberid = #{memberid,jdbcType=INTEGER},
+			</if>
+			<if test="usedmoney != null">
+				usedmoney = #{usedmoney,jdbcType=DOUBLE},
+			</if>
+			<if test="integral != null">
+				integral = #{integral,jdbcType=INTEGER},
+			</if>
+			<if test="electronicmoney != null" >
+        		electronicmoney = #{electronicmoney,jdbcType=DOUBLE},
+     		</if>
+		</set>
+		where memberid = #{memberid,jdbcType=INTEGER}
+	</update>
+	 <!-- 增加账户提现记录 -->
+	<insert id="insertPresentRecord" parameterType="com.surpass.mvc.system.bas.model.MemberPresentRecord" >
+    insert into t_sys_member_presentrecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="memberid != null" >
+        memberid,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="cashtime != null" >
+        cashTime,
+      </if>
+      <if test="dealtime != null" >
+        dealTime,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="banknumber != null" >
+        banknumber,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="bankname != null" >
+        bankname,
+      </if>
+      <if test="alipayaccount != null" >
+        alipayaccount,
+      </if>
+      <if test="mobilephone != null" >
+        mobilephone,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="cashtime != null" >
+        #{cashtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dealtime != null" >
+        #{dealtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="banknumber != null" >
+        #{banknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="bankname != null" >
+        #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="alipayaccount != null" >
+        #{alipayaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephone != null" >
+        #{mobilephone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!-- 获取用户提现记录 -->
+    <select id="getListPresentRecordByMemberId" resultType="com.surpass.mvc.system.bas.model.MemberPresentRecord" parameterType="map" >
+    select 
+   	*
+    from t_sys_member_presentrecord
+    where memberid = #{memberPresentRecord.memberid}
+    ORDER BY cashtime DESC
+		LIMIT #{start}, #{limit}
+  </select>
+  <!-- 获取用户充值记录 -->
+    <select id="getListMemberRechargeByMemberId" resultType="com.surpass.mvc.system.bas.model.MemberRecharge" parameterType="map" >
+    select 
+   	*
+    from t_sys_member_recharge
+    where memberid = #{memberRecharge.memberid}
+    ORDER BY createTime DESC
+		LIMIT #{start}, #{limit}
+  </select>
+   <!-- 增加用户充值记录 -->
+  <insert id="insertRecharge" parameterType="com.surpass.mvc.system.bas.model.MemberRecharge" >
+    insert into t_sys_member_recharge
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="memberid != null" >
+        memberid,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+        createTime,
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DOUBLE},
+      </if>
+      now(),
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+    <!-- 获取用户积分记录 -->
+   <select id="getListMemberIntegralByMemberId" resultType="com.surpass.mvc.system.bas.model.MemberIntegral" parameterType="map" >
+    select 
+    *
+    from member_integral
+    where memberid = #{memberIntegral.memberid}
+     ORDER BY createdate DESC
+		LIMIT #{start}, #{limit}
+  </select>
+    <!-- 增加用户积分记录 -->
+   <insert id="insertMemberIntegral" parameterType="com.surpass.mvc.system.bas.model.MemberIntegral" >
+    insert into member_integral
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="memberid != null" >
+        memberid,
+      </if>
+      <if test="signdate != null" >
+        signdate,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="point != null" >
+        point,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+        createdate,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=INTEGER},
+      </if>
+      <if test="signdate != null" >
+        #{signdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        #{point,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+     now(),
+    </trim>
+  </insert>
+   <!-- 获取用户当前签到数据 -->
+   <select id="getMemberIntegralBySignDate" resultType="com.surpass.mvc.system.bas.model.MemberIntegral" parameterType="java.lang.Integer" >
+    SELECT
+	*
+	FROM
+		member_integral
+	WHERE
+		to_days(signdate) = to_days(now())
+	AND type = 1
+	AND memberid = #{memberid,jdbcType=INTEGER};
+  </select>
+</mapper>

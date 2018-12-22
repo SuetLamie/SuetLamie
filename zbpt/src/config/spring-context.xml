@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/context
+     			http://www.springframework.org/schema/context/spring-context-3.0.xsd
+     			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     			http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+    			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+     			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+     			http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+	<!-- webService 自动扫描 -->
+	<context:component-scan base-package="com.surpass.mvc,com.surpass.ws.*">
+		<context:exclude-filter type="regex" expression="com.surpass.mvc.*.*.controller" />
+	</context:component-scan>
+	<bean id="SpringContextUtil" class="com.surpass.utils.SpringContextUtil" />
+<!-- 	<import resource="app-cxf.xml" /> -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:/config/jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="configProperty" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<list>
+				<value>classpath*:/config/config.properties</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="connectionProperties" value="${jdbc.connectionProperties}" />
+		<!-- 当这个池被启动时初始化的创建的连接个数，起始生效版本：1.2 -->
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<!-- 可以在这个池中同时被分配的有效连接数的最大值，如设置为负数，则不限制 -->
+		<property name="maxTotal" value="${jdbc.maxTotal}" />
+		<!-- 可以在池中保持空闲的最大连接数，超出设置值之外的空闲连接将被回收，如设置为负数，则不限制 -->
+		<property name="maxIdle" value="${jdbc.maxIdle}" />
+		<!-- 可以在池中保持空闲的最小连接数，超出设置值之外的空闲连接将被创建，如设置为0，则不创建 -->
+		<property name="minIdle" value="${jdbc.minIdle}" />
+		<!-- （如果没有可用连接）池在抛出异常前等待的一个连接被归还的最大毫秒数，设置为-1则等待时间不确定 -->
+		<property name="maxWaitMillis" value="${jdbc.maxWaitMillis}" />
+		<!-- 在连接池返回连接给调用者前用来进行连接校验的查询sql。如果指定，则这个查询必须是一个至少返回一行数据的SQL SELECT语句。如果没有指定，则连接将通过调用isValid() 方法进行校验。 -->
+		<property name="validationQuery" value="${jdbc.validationQuery}" />
+		<!-- 指明在从池中租借对象时是否要进行校验，如果对象校验失败，则对象将从池子释放，然后我们将尝试租借另一个 -->
+		<property name="testOnBorrow" value="${jdbc.testOnBorrow}" />
+	</bean>
+	<bean id="parametersMapBuilder" class="com.surpass.mvc.core.query.MySqlParametersMapBuilder" />
+	<!-- jdbc 模版 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- 事务配置 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- 定义事务通知 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<!-- 定义方法的过滤规则 -->
+		<tx:attributes>
+			<!-- 所有方法都使用事务 -->
+			<tx:method name="save*" rollback-for="Exception" propagation="REQUIRED" />
+			<tx:method name="update*" rollback-for="Exception" propagation="REQUIRED" />
+			<tx:method name="insert*" rollback-for="Exception" propagation="REQUIRED" />
+			<tx:method name="del*" rollback-for="Exception" propagation="REQUIRED" />
+			<tx:method name="change*" rollback-for="Exception" propagation="REQUIRED" />
+			<tx:method name="add*" rollback-for="Exception" propagation="REQUIRED" />
+			<!-- 定义所有get开头的方法都是只读的 -->
+			<tx:method name="get*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<!-- 定义AOP配置 -->
+	<aop:config>
+		<aop:pointcut id="bizMethods" expression="execution(* com.surpass.mvc.*.*.service.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="bizMethods" />
+	</aop:config>
+</beans>

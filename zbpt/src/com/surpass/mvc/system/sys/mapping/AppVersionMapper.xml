@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.surpass.mvc.system.sys.dao.AppVersionMapper">
+	<select id="getAppVersion" resultType="com.surpass.mvc.system.sys.model.AppVersion">
+		select * from app_version 
+      where replace(v_code,'.','') = (select max(replace(v_code,'.','')) from  app_version )
+  		and is_rollback = 0 
+	</select>
+	
+	<!-- 查询信息 -->
+	<select id="query" resultType="com.surpass.mvc.system.sys.model.AppVersion"
+		parameterType="map">
+		select id id, v_name, v_code, path, is_update, bz, DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') create_time,is_rollback
+		 FROM app_version
+		 where 1=1 
+		<if test="appVersion.v_name != null and appVersion.v_name !='' ">
+			and v_name  like CONCAT('${appVersion.v_name}','%' ) 
+		</if>
+		<if test="appVersion.bz != null and appVersion.bz !='' ">
+			and bz  like CONCAT('${appVersion.bz}','%' ) 
+		</if>
+		ORDER BY v_code DESC 
+		LIMIT #{start}, #{limit} 
+	</select>
+
+	<!-- 查询信息数据条数 -->
+	<select id="total" resultType="Integer"
+		parameterType="com.surpass.mvc.system.sys.model.AppVersion">
+		select count(id) FROM app_version
+		where  1= 1
+		<if test="v_name != null and v_name !='' ">
+			and v_name  like CONCAT('${v_name}','%' ) 
+		</if>
+		<if test="bz != null and bz !='' ">
+			and bz  like CONCAT('${bz}','%' ) 
+		</if>
+	</select>
+	<!-- 查询信息数据条数 -->
+	<select id="validate" resultType="Integer" >
+		select count(id) FROM app_version
+		where  v_code = #{v_code,jdbcType=VARCHAR}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_version where id in (${ids})
+	</delete>
+	
+	<insert id="insert" parameterType="com.surpass.mvc.system.sys.model.AppVersion">
+		insert into app_version (
+		id,
+		v_name,
+		v_code,
+		path,
+		is_update,
+		<if test="bz != null">
+			bz,
+		</if>
+		is_rollback,
+		create_time
+		)
+		values (
+		#{id,jdbcType=VARCHAR},
+		#{v_name,jdbcType=VARCHAR},
+		#{v_code,jdbcType=VARCHAR},
+		#{path},
+		#{is_update,jdbcType=VARCHAR},
+		<if test="bz != null">
+			#{bz,jdbcType=VARCHAR},
+		</if>
+		#{is_rollback,jdbcType=VARCHAR},
+		now()
+		)
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterType="com.surpass.mvc.system.sys.model.AppVersion">
+		update app_version 
+		<set>
+			<if test="bz != null">
+				bz = #{bz,jdbcType=VARCHAR},
+			</if>
+				is_rollback = #{is_rollback,jdbcType=VARCHAR},
+			is_update = #{is_update,jdbcType=VARCHAR}
+		</set>
+		where id = #{id}
+	</update>
+	
+	<select id="getNewCode" resultType = "String">
+		select max(v_code) from app_version t 
+	</select>
+	
+	<select id= "getPaths" resultType="String">
+		select path from app_version where id in (${ids})
+	</select>
+</mapper>

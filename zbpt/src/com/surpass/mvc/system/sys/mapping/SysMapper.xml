@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.surpass.mvc.system.sys.dao.SysMapper">
+	<!-- 获取菜单信息 -->
+	<select id="getMenuTreeList" resultType="com.surpass.mvc.system.sys.model.SysMenu" parameterType="map">
+		select m.* from t_sys_menu m
+		where
+		exists(select * from t_sys_role_module rm where
+		exists(select * from t_sys_user_role ur where ur.user_id=#{user_id} and
+		rm.role_id=ur.role_id and ur.role_id in(select r.r_id from t_sys_role r where r.user_type=#{user_type})) and m.id=rm.module_id)
+		and
+		m.state='1' and
+		m.parentId=#{node} order by m.idx
+	</select>
+	<!-- 获取页面按钮权限 -->
+	<select id="getSysPower" resultType="string" parameterType="string">
+		select group_concat(m.m_id) from t_sys_module m where exists(select *
+		from t_sys_role_module rm where rm.module_id=m.m_id and
+		exists(select * from
+		t_sys_user_role ur where ur.role_id=rm.role_id and
+		ur.user_id=#{user_id})) and m.state='1'
+	</select>
+	<select id="getDictList" resultType="com.surpass.mvc.system.sys.bean.ComboBox" parameterType="map">
+		select t.DICT_DETALL_CODE id,t.dict_detail_name text from t_sys_dict_detail t
+		<where>
+			t.dict_id=#{dict_id}
+			<if test="dict_parent_id != null and dict_parent_id !='' ">
+				and t.dict_parent_id=#{dict_parent_id}
+			</if>
+			<if test="state != null and state !='' ">
+				and t.state=#{state}
+			</if>
+		</where>
+	</select>
+	<select id="getDictDetailList" resultType="com.surpass.mvc.system.sys.model.DictDetail" parameterType="com.surpass.mvc.system.sys.model.DictDetail">
+		select * from t_sys_dict_detail t
+		<where>
+			t.dict_id=#{dict_id}
+			<if test="dict_parent_id != null and dict_parent_id !='' ">
+				and t.dict_parent_id=#{dict_parent_id}
+			</if>
+			<if test="state != null and state !='' ">
+				and t.state=#{state}
+			</if>
+		</where>
+	</select>
+</mapper>

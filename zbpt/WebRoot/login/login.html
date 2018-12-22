@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>陕西省公安厅刑侦局数据管理综合应用平台</title>
+<link rel="shortcut icon" href="../resources/homeFrame/images/ico/favicon.ico">
+<link rel="stylesheet" type="text/css" href="css/login.css" />
+<script type="text/javascript" src="../resources/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+	var basePath = "<%=basePath%>";
+	//自动添加用户名密码  
+	// 写cookies
+	var usName = "424520E319635E62C91DC2E3FA754790F75A8B97";
+	function setCookie(name, value) {
+		var Days = 30;
+		var exp = new Date();
+		exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+		document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+	}
+	// 读取cookies
+	function getCookie(name) {
+		var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+
+		if (arr = document.cookie.match(reg))
+			return unescape(arr[2]);
+		else
+			return null;
+	}
+
+	// 删除cookies
+	function delCookie(name) {
+		var exp = new Date();
+		exp.setTime(exp.getTime() - 1);
+		var cval = getCookie(name);
+		if (cval != null)
+			document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+	}
+	function login() {
+		var fm = document.loginForm;
+		var account = fm.account.value;
+		var password = fm.password.value;
+		if (account.trim().length == 0) {
+			$("#msg").html("用户名不能为空");
+			return false;
+		}
+		if (password.trim().length == 0) {
+			$("#msg").html("密码不能为空");
+			return false;
+		}
+		$.ajax({
+			type : "POST",
+			url : "../system/sys/loginController/login.action",
+			dataType : "json",
+			data : {
+				account : account,
+				password : password
+			},
+			success : function(data) {
+				if (data.execute) {
+					if ($("#checkbox-1").is(":checked")) {
+						var rl_user = '{account:"' + account + '",password:"' + password + '",checked:true}';
+						setCookie(usName, rl_user);
+					} else {
+						delCookie(usName);
+					}
+					window.location.href = '../system/sys/loginController/queryMain.action';
+				} else {
+					$("#msg").html(data.msg);
+				}
+			}
+		});
+	}
+	$(document).ready(function() {
+		var cookieUs = getCookie(usName);
+		var addressArr = window.location.href.split('?clearCookie');
+		if (addressArr.length > 1) {
+			if (cookieUs) {
+				var usJson = eval('(' + cookieUs + ')');
+				var rl_user = '{account:"' + usJson.account + '",password:"",checked:false}';
+				setCookie(usName, rl_user);
+			}
+			window.location.href = addressArr[0];
+		}
+		if (cookieUs) {
+			var usJson = eval('(' + cookieUs + ')');
+			$("#checkbox-1").attr("checked", usJson.checked);
+			$("#account").val(usJson.account);
+			$("#password").val(usJson.password);
+		}
+	});
+	function bodyLoad() {
+		if (window != top.window) {
+			top.window.location.href = window.location;
+		}
+	}
+</script>
+</head>
+
+<body id="test" onload="bodyLoad()">
+	<script type="text/javascript">
+		autodivheight();
+		function autodivheight() { //函数：获取尺寸
+			//获取浏览器窗口高度
+			var winHeight = 0;
+			if (window.innerHeight)
+				winHeight = window.innerHeight;
+			else if ((document.body) && (document.body.clientHeight))
+				winHeight = document.body.clientHeight;
+			//通过深入Document内部对body进行检测，获取浏览器窗口高度
+			if (document.documentElement && document.documentElement.clientHeight)
+				winHeight = document.documentElement.clientHeight;
+			//DIV高度为浏览器窗口的高度
+			//document.getElementById("test").style.height= winHeight +"px";
+			//DIV高度为浏览器窗口高度的一半
+			document.getElementById("test").style.height = winHeight + "px";
+		}
+		window.onresize = autodivheight; //浏览器窗口发生变化时同时变化DIV高度
+	</script>
+	<!-- header -->
+	<div class="header">
+		<div class="w-1248">
+			<div class="logo">
+				<img src="images/login-logo.png" />
+			</div>
+		</div>
+	</div>
+	<!--login-main -->
+	<div class="login-main">
+		<div class="login-box w-1248">
+			<div class="login-cont fl">
+
+				<div class="login-cont1 login-cont11">
+					<div class="login-c">
+						<img src="images/login-btn-1.png" />
+						<h2>基础信息</h2>
+						<p>对平台使用用户进行登记</p>
+						<div class="cover">
+							<h2>基础信息</h2>
+							<p>对平台使用用户进行登记</p>
+							<p>对用户组织机构进行设置</p>
+							<p>对用户操作权限进行设置</p>
+						</div>
+					</div>
+				</div>
+				<div class="login-cont1 login-cont12">
+					<div class="login-c">
+						<img src="images/login-btn-2.png" />
+						<h2>数据查询</h2>
+						<p>对本级组织查询权限内的数据进行查询</p>
+						<div class="cover">
+							<h2>数据查询</h2>
+							<p>对本级组织查询权限内的数据进行查询</p>
+						</div>
+					</div>
+				</div>
+				<div class="login-cont1 login-cont13">
+					<div class="login-c">
+						<img src="images/login-btn-3.png" />
+						<h2>数据分析</h2>
+						<p>引入大数据分析平台，进行数据分析</p>
+						<div class="cover">
+							<h2>数据分析</h2>
+							<p>引入大数据分析平台，进行数据分析</p>
+						</div>
+					</div>
+				</div>
+				<div class="login-cont1 login-cont14">
+					<div class="login-c">
+						<img src="images/login-btn-4.png" />
+						<h2>人像服务</h2>
+						<p>对人像比对权限进行设置</p>
+						<div class="cover">
+							<h2>人像服务</h2>
+							<p>对接旷世人像比对</p>
+							<p>对人像比对权限进行设置</p>
+						</div>
+					</div>
+				</div>
+				<div class="login-cont1 login-cont15">
+					<div class="login-c">
+						<img src="images/login-btn-5.png" />
+						<h2>数据上传</h2>
+						<p>对各县区自有数据资源进行管理</p>
+						<div class="cover">
+							<h2>数据上传</h2>
+							<p>对各县区自有数据资源进行管理</p>
+						</div>
+					</div>
+				</div>
+				<div class="login-cont1 login-cont16">
+					<div class="login-c">
+						<img src="images/login-btn-6.png" />
+						<h2>接口服务</h2>
+						<p>数据接口、接口对接</p>
+						<div class="cover">
+							<h2>接口服务</h2>
+							<p>向已登记的外部应用或厂商提供数据查询服务；对外部需访问平台数据的应用或厂商进行登记</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="login-cont2 fl">
+				<div class="login-con">
+					<form name="loginForm">
+						<h1>登录</h1>
+						<p class="login-title">用户名：</p>
+						<input type="text" name="account" id="account" class="text1" placeholder="请输入用户名" autofocus="autofocus" />
+						<p class="login-title">密码：</p>
+						<input type="password" name="password" id="password" class="text2" placeholder="请输入用户密码" autofocus="autofocus" />
+						<div class="j-mima">
+							<input type="checkbox" value="0" class="check_view_state" id="checkbox-1" style="display: none;"> <label for="checkbox-1"></label>
+							<span class="jizhu">记住密码</span>
+						</div>
+						<a href="#"><input type="button" onclick="login()" name="my-submit" class="my-submit" id="my-submit" value="登录" /> </a>
+					</form>
+					<span style="color: red;width: 200px;font-size: 20px;margin-left: 40px" id="msg"></span>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="footer">
+		<p>陕西省公安厅刑侦局监制&nbsp;&nbsp;陕西派诚科技有限公司研发</p>
+	</div>
+	<!--		<div class="footer">
+			<i class="h-liner"></i>
+			<div class="footer-1">
+				<p>陕西省公安厅刑侦局监制&nbsp;&nbsp;陕西派诚科技有限公司研发</p>
+			</div>
+		</div>-->
+</body>
+
+</html>
