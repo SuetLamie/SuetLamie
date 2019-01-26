@@ -12,6 +12,7 @@
 <body>
 	<section>
 		<h1>小商城</h1>
+		<h1>${pageContext.request.scheme }://${pageContext.request.serverName }:${pageContext.request.serverPort }${pageContext.request.contextPath }</h1>
 		<form action="<%=path %>/page/login" method="post">
 			<p>
 				账号：<input type="text" value="" name="user" placeholder="请输入账号" />
@@ -24,6 +25,6 @@
 				<input type="submit" value="提交" />
 			</p>
 		</form>
-	</section>		
+	</section>
 </body>
 </html>
